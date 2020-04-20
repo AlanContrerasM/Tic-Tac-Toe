@@ -30,6 +30,7 @@ html, body{
 }
 .options{
     grid-area: options;
+    font-size: 2.5vw;
 }
 .info{
     grid-area: info;

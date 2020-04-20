@@ -12,7 +12,23 @@
         <main>
             <div class="container">
                 <div class="title item">Tic-Tac-Toe</div>
-                <div class="options item"></div>
+                <div class="options item">
+                    <form class="form">
+                        <label for="fPlayer1">Player1 name:</label>
+                        <input type="text" id="fPlayer1" name="fPlayer1"><br>
+                        <label for="fPlayer2">Player2 name:</label>
+                        <input type="text" id="fPlayer2" name="fPlayer2">
+                        <select id="player2Choice">
+                            <option value="Computer">Computer</option>
+                            <option value="Human">Human</option>
+                        </select> 
+                        <label for="fAI">You want computer AI?</label>
+                        <input type="checkbox" id="fAI" name="fAI">
+                      </form>
+                      <form>
+                        <button id="startButton">StartGame</button>
+                      </form> 
+                </div>
                 <div class="info">
                     <h2>Tech Used:</h2>
                     <br>
