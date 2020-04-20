@@ -1,0 +1,71 @@
+html, body{
+    background: rgb(3,3,3);
+    background: linear-gradient(0deg, rgba(3,3,3,1) 0%, rgba(92,92,92,1) 100%); 
+
+    background-attachment: fixed;
+}
+
+.container{
+    display: grid;
+    grid-template-areas:
+    "title title title"
+    "options options options"
+    "info gameBoard ."
+    "score score score" ;
+    grid-template-columns: 1.5fr 5fr 1.5fr;
+    grid-template-rows: 2fr 1fr 5fr 2fr;
+    height: 100%;
+    width: 100%;
+    position:fixed;
+    text-align: center;
+    font-size: 5vw;
+    color: whitesmoke;
+}
+.item{
+    display: grid;
+    align-items: center;
+}
+.title{
+    grid-area: title;
+}
+.options{
+    grid-area: options;
+}
+.info{
+    grid-area: info;
+    align-items: baseline;
+    font-size: 2.5vw;
+}
+ul{
+    text-align: left;
+}
+.gameBoard{
+    display: grid;
+    grid-area: gameBoard;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
+    height: 100%;
+}
+.score{
+    display: grid;
+    grid-area: score;
+    grid-template-columns: 1fr 3fr 1fr 3fr 1fr;
+}
+
+.counter, .gameField{
+    background-color: black;
+    color: green;
+    padding: 1vw;
+    box-shadow: 0px 0px 3px 3px #999;
+    opacity: 1;
+}
+
+
+
+#player1Name{
+    color: blue;
+}
+
+#player2Name{
+    color: red;
+}
