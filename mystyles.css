@@ -10,7 +10,7 @@ html, body{
     grid-template-areas:
     "title title title"
     "options options options"
-    "info gameBoard ."
+    "info gameBoard log"
     "score score score" ;
     grid-template-columns: 1.5fr 5fr 1.5fr;
     grid-template-rows: 2fr 1fr 5fr 2fr;
@@ -24,6 +24,7 @@ html, body{
 .item{
     display: grid;
     align-items: center;
+    justify-items: center;
 }
 .title{
     grid-area: title;
@@ -47,6 +48,10 @@ ul{
     grid-template-rows: repeat(3,1fr);
     height: 100%;
 }
+.log{
+    grid-area: log;
+    font-size: 12px;
+}
 .score{
     display: grid;
     grid-area: score;
@@ -61,7 +66,13 @@ ul{
     opacity: 1;
 }
 
+.gameField{
+    background-color: rgb(22, 22, 22);
+}
 
+.gameField:hover{
+    background-color: black;
+}
 
 #player1Name{
     color: blue;
@@ -69,4 +80,20 @@ ul{
 
 #player2Name{
     color: red;
+}
+
+button{
+    width: max-content;
+}
+
+.formAi{
+    display: none;
+}
+
+/* #startButton{
+    display: none;
+} */
+
+#extraButton{
+    display:none;
 }
