@@ -4,7 +4,6 @@ const form = document.querySelector(".form");
 const formPlayer1 = document.querySelector("#fPlayer1");
 const formPlayer2 = document.querySelector("#fPlayer2");
 const player2Choice = document.querySelector("#player2Choice");
-const formAI = document.querySelector("#fAI");
 const gameField = document.querySelectorAll(".gameField");
 
 // we'll be creating modules for game
@@ -78,8 +77,6 @@ const gameBoard = (() => {
                                                 player2.getName() + " picked: " + pick.id,
                                                 "It's " + player1.getName() + " turn.")
 
-                    }else{
-                        console.log("playing against skynet")
                     }
                 } else{
                     displayController.dlog(player2.getName() + " picked: "+ e.target.id,
@@ -180,11 +177,8 @@ const displayController =(() => {
             //check if we are playing against human, computer or AI
             if(player2Choice.value == "Human"){
                 player2 = Player(formPlayer2.value, "Human")
-            }else{
-                if(formAI.checked){
-                    player2 = Player(formPlayer2.value, "AI")
-                } else player2 = Player(formPlayer2.value, "Computer")
-            }
+            }else player2 = Player(formPlayer2.value, "Computer")
+
             gameBoard.setNewBoard();
             dlog("Let the Games Begin!",
                     player1.getName() +
@@ -256,7 +250,4 @@ formPlayer2.onchange = e => {
 
 player2Choice.onchange = e => {
     console.log("changed player2 race" + e.target.value);
-    if(e.target.value == "Computer"){
-        document.querySelector(".formAi").style.display = "block";
-    } else document.querySelector(".formAi").style.display = "none";
 }
