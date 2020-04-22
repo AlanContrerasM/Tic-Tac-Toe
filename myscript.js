@@ -71,13 +71,14 @@ const gameBoard = (() => {
                     }else if (player2.getType() == "Computer"){
                         console.log("computer plays");
                         const pick = player2.playComputer()
-                        pick.innerHTML = "O";
-                        displayController.dlog(player1.getName() + " picked: "+ e.target.id,
-                                                player2.getName() + " is a computer",
-                                                player2.getName() + " picked: " + pick.id,
-                                                "It's " + player1.getName() + " turn.")
-
-                    }
+                        if (pick != undefined){
+                            pick.innerHTML = "O";
+                            displayController.dlog(player1.getName() + " picked: "+ e.target.id,
+                                                    player2.getName() + " is a computer",
+                                                    player2.getName() + " picked: " + pick.id,
+                                                    "It's " + player1.getName() + " turn.")
+                        };
+                    };
                 } else{
                     displayController.dlog(player2.getName() + " picked: "+ e.target.id,
                                             player1.getName() + " turn.");
