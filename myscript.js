@@ -11,6 +11,7 @@ const gameField = document.querySelectorAll(".gameField");
 // and function factories for the players
 let player1;
 let player2;
+
 // factory for players, wether human, computer, their move, etc.
 const Player = (name, type) => {
     let counter = 0;
@@ -22,15 +23,14 @@ const Player = (name, type) => {
     }
     const getCounter = () => counter;
     const resetCounter = () => counter = 0;
-    const choose = field => {
-        //player picked a square
-        console.log("player picked " + field)
-    };
-    return{getName, getType, addCounter, getCounter, choose}
+    return{getName, getType, addCounter, getCounter, resetCounter}
 };
 
 
 // Module for gameBoard, here we check for game logic and general Board
+//setNewBoard for restarting the game
+//StopGame for not accepting new moves
+//checkForWinner for game logic
 const gameBoard = (() => {
     'use strict';
     let playingStatus = false;
@@ -38,9 +38,13 @@ const gameBoard = (() => {
     let player1Turn = true;
     
     const setNewBoard = () =>{
+
+        displayController.updateNames();
         playingStatus = true;
+        player1Turn = true;
         gameField.forEach(e =>{
-            e.innerHTML = "Choose"
+            e.innerHTML = "Choose";
+            e.style.color = "green";
             e.onclick = e =>{
                 //check if we are playing, if not, we play.
                 if(playingStatus == false) return;
@@ -52,12 +56,14 @@ const gameBoard = (() => {
 
                     //checking for human player2 or computer
                     if(player2.getType() == "Human"){
-                        console.log("player 2 turn")
                         player1Turn = false;
+                        displayController.dlog(player1.getName() + " picked: "+ e.target.id,
+                                                player2.getName() + " turn.")
                     } else console.log("computer plays");  
                 } else{
-                    displayController.dlog(player2.getName() + " picked: "+ e.target.id)
-                    e.target.innerHTML = "O"
+                    displayController.dlog(player2.getName() + " picked: "+ e.target.id,
+                                            player1.getName() + " turn.");
+                    e.target.innerHTML = "O";
                     player1Turn = true;
                 };
                 checkForWinner();
@@ -69,16 +75,62 @@ const gameBoard = (() => {
         gameField.forEach(e => e.innerHTML = "");
     }
     const checkForWinner = () => {
+        const t1 = document.querySelector("#t1"); 
+        const t2 = document.querySelector("#t2");
+        const t3 = document.querySelector("#t3");
+        const c1 = document.querySelector("#c1");
+        const c2 = document.querySelector("#c2");
+        const c3 = document.querySelector("#c3");
+        const b1 = document.querySelector("#b1");
+        const b2 = document.querySelector("#b2");
+        const b3 = document.querySelector("#b3");
 
+        const winningCombos =[
+            [t1,t2,t3],
+            [c1,c2,c3],
+            [b1,b2,b3],
+            [t1,c1,b1],
+            [t2,c2,b2],
+            [t3,c3,b3],
+            [t3,c2,b1],
+            [t1,c2,b3]
+        ]
+        
+        winningCombos.forEach((e,index)=>{
+            if(e[0].innerHTML == "Choose" || e[1].innerHTML == "Choose" || e[2].innerHTML == "Choose"){
+                //Do nothing
+            }else if (e[0].innerHTML == e[1].innerHTML && e[1].innerHTML == e[2].innerHTML){
+                playingStatus = false;
+                newWin(e[0], e[1], e[2]);
+            }else console.log("no winners yet")
+
+        });
+    }
+    const newWin = (f1,f2,f3) =>{
+        let color = "blue";
+        let winner = player1;
+        if (f1.innerHTML == "O") {
+            color = "red"
+            winner = player2;
+        };
+        f1.style.color = color;
+        f2.style.color = color;
+        f3.style.color = color;
+
+        displayController.dlog(winner.getName() + " has won");
+        winner.addCounter();
+        displayController.updateCounters();
     }
     return {setNewBoard,
-            stopGame}
+            stopGame, 
+            checkForWinner}
   })();
 
 
-
-
 // Module for displayController, here we update or render according to plays
+//dlog for putting messages on a div
+//start so the game plays and we can choose a tictactoe field
+//changePlayers, so we can restart our Player objects
 
 const displayController =(() => {
     'use strict';
@@ -115,12 +167,16 @@ const displayController =(() => {
             dlog("Let the Games Begin!",
                     player1.getName() +
                     " vs " + 
-                    player2.getName() + player2.getType());
+                    player2.getName() + player2.getType(),
+                    player1.getName()+ " Starts!");
 
         } else {
             gameBoard.setNewBoard();
             dlog("New Round!",
-                "Player1 vs Player2");
+                    player1.getName() +
+                    " vs " + 
+                    player2.getName() + player2.getType(),
+                    player1.getName()+ " Starts!");
         }
         
 
@@ -131,12 +187,25 @@ const displayController =(() => {
         startButton.innerHTML = "Start Game";
         extraButton.style.display = "none";
         gameBoard.stopGame();
+        player1.resetCounter();
+        player2.resetCounter();
+        updateCounters();
 
         dlog("will change players...",
             "Scores set to 0!")
     }
+    const updateCounters = () => {
+        document.querySelector("#player1Counter").innerHTML = player1.getCounter();
+        document.querySelector("#player2Counter").innerHTML = player2.getCounter();
+    };
+    const updateNames = () => {
+        document.querySelector("#player1Name").innerHTML = formPlayer1.value;
+        document.querySelector("#player1Name").innerHTML = formPlayer1.value;
+    }
     return {start, 
             changePlayers,
+            updateCounters,
+            updateNames,
             dlog};
 
 })();
