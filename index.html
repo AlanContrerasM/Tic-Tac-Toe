@@ -13,18 +13,18 @@
             <div class="container">
                 <div class="title item">Tic-Tac-Toe</div>
                 <div class="options item">
-                    <form class="form">
+                    <form class="form" autocomplete="off">
                         <label for="fPlayer1">Player1 name:</label>
                         <input type="text" id="fPlayer1" name="fPlayer1" value="Player1"><br>
                         <label for="fPlayer2">Player2 name:</label>
                         <input type="text" id="fPlayer2" name="fPlayer2" value="Player2">
                         <select id="player2Choice">
-                            <option value="Human">Human</option>
+                            <option value="Human" selected="selected">Human</option>
                             <option value="Computer">Computer</option>
                         </select>
                         <span class="formAi">
                             <label for="fAI" class="ai">You want computer AI?</label>
-                            <input type="checkbox" id="fAI" name="fAI" class="ai">
+                            <input type="checkbox" id="fAI" name="fAI" class="ai" >
                         </span>
                       </form>
                     <button id="startButton">Start Game</button>

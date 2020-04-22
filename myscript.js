@@ -4,7 +4,7 @@ const form = document.querySelector(".form");
 const formPlayer1 = document.querySelector("#fPlayer1");
 const formPlayer2 = document.querySelector("#fPlayer2");
 const player2Choice = document.querySelector("#player2Choice");
-const formAI = document.querySelector("#fAi");
+const formAI = document.querySelector("#fAI");
 const gameField = document.querySelectorAll(".gameField");
 
 // we'll be creating modules for game
@@ -23,7 +23,17 @@ const Player = (name, type) => {
     }
     const getCounter = () => counter;
     const resetCounter = () => counter = 0;
-    return{getName, getType, addCounter, getCounter, resetCounter}
+    const playComputer = () =>{
+        const fieldArray = []
+        gameField.forEach(e => {
+            if(e.innerHTML == "Choose"){
+                fieldArray.push(e)
+            }
+        });
+        const pick = fieldArray[Math.floor(Math.random() * fieldArray.length)];
+        return pick;
+    }
+    return{getName, getType, addCounter, getCounter, resetCounter, playComputer}
 };
 
 
@@ -54,12 +64,23 @@ const gameBoard = (() => {
                     displayController.dlog(player1.getName() + " picked: "+ e.target.id)
                     e.target.innerHTML = "X"
 
-                    //checking for human player2 or computer
+                    //checking for human player2 or computer or AI
                     if(player2.getType() == "Human"){
                         player1Turn = false;
                         displayController.dlog(player1.getName() + " picked: "+ e.target.id,
                                                 player2.getName() + " turn.")
-                    } else console.log("computer plays");  
+                    }else if (player2.getType() == "Computer"){
+                        console.log("computer plays");
+                        const pick = player2.playComputer()
+                        pick.innerHTML = "O";
+                        displayController.dlog(player1.getName() + " picked: "+ e.target.id,
+                                                player2.getName() + " is a computer",
+                                                player2.getName() + " picked: " + pick.id,
+                                                "It's " + player1.getName() + " turn.")
+
+                    }else{
+                        console.log("playing against skynet")
+                    }
                 } else{
                     displayController.dlog(player2.getName() + " picked: "+ e.target.id,
                                             player1.getName() + " turn.");
@@ -102,7 +123,8 @@ const gameBoard = (() => {
             }else if (e[0].innerHTML == e[1].innerHTML && e[1].innerHTML == e[2].innerHTML){
                 playingStatus = false;
                 newWin(e[0], e[1], e[2]);
-            }else console.log("no winners yet")
+                console.log("we have a winner")
+            }
 
         });
     }
